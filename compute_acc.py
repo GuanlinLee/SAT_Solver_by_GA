@@ -4,6 +4,7 @@ import numba
 def acc_compute(size_of_C,k_sat,C_np,X):
     acc=[]
     #print(X)
+    ones=np.ones(len(X))
     for i in range(size_of_C):
         x_list=[]
         not_list=[]
@@ -20,7 +21,10 @@ def acc_compute(size_of_C,k_sat,C_np,X):
                 x_list[p]=not x_list[p]
         for x in x_list:
             ci_val=ci_val or x
+        if ci_val!=1:
+            for k in range(k_sat):
+                ones[int(ci_np[k]-1)]=0 #(ones[int(ci_np[k]-1)]+1)%2
         acc.append(ci_val)
 
     acc_np=np.array(acc)
-    return np.mean(acc_np)
+    return np.mean(ones)
