@@ -118,7 +118,7 @@ while fitness_best!=1.0:
 		same_times=0
 	fit_history=fitness_best
 	if same_times>10:
-		mutate_rate+=1
+		mutate_rate+=5
 
 		same_times=0
 		print('mr up to:',mutate_rate)
