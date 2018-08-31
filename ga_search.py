@@ -7,13 +7,13 @@ import numba
 import argparse
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--size_of_X', '-x', default=100, type = int)
-parser.add_argument('--size_of_C', '-c', default=500, type = int)
+parser.add_argument('--size_of_X', '-x', default=300, type = int)
+parser.add_argument('--size_of_C', '-c', default=900, type = int)
 parser.add_argument('--k_sat', '-k', default=3, type = int)
-parser.add_argument('--population_num', '-p', default=150, type = int)
-parser.add_argument('--cross_rate', '-cr', default=0.6, type =float)
-parser.add_argument('--mutate_rate', '-mr', default=10, type = int)
-parser.add_argument('--keep_rate', '-kr', default=0.7, type = float)
+parser.add_argument('--population_num', '-p', default=800, type = int)
+parser.add_argument('--cross_rate', '-cr', default=0.9, type =float)
+parser.add_argument('--mutate_rate', '-mr', default=5, type = int)
+parser.add_argument('--keep_rate', '-kr', default=0.8, type = float)
 args = parser.parse_args()
 
 print(args)
@@ -23,7 +23,7 @@ size_of_C=args.size_of_C
 k_sat=args.k_sat
 population_num=args.population_num #必须是2的倍数
 cross_rate=args.cross_rate
-mutate_rate=args.mutate_rate   #n/100中的n
+mutate_rate=args.mutate_rate   #n/1000中的n
 
 keep_rate=args.keep_rate
 
@@ -62,7 +62,7 @@ def cross_fn(parent1,parent2):
 @numba.jit
 def mutate_fn(one_of_population):
 	for i in range(len(one_of_population)):
-		if randint(1,100)<=mutate_rate:
+		if randint(1,1000)<=mutate_rate:
 			one_of_population[i]=(one_of_population[i]+1)%2
 	return one_of_population
 @numba.jit
