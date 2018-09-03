@@ -128,9 +128,9 @@ while fitness_best!=1.0:
 #		population_num+=10
 		same_times=0
 		print('mr up to:',mutate_rate)
-	if keep_rate<=0.0:
+	if keep_rate<=0.2:
 		keep_rate=0.5
-	if cross_rate<=0.0:
+	if cross_rate<=0.3:
 		cross_rate=0.5
 	if mutate_rate>=1000:
 		mutate_rate=500
