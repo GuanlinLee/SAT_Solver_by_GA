@@ -66,7 +66,7 @@ def mutate_fn(one_of_population):
 			one_of_population[i]=(one_of_population[i]+1)%2
 	return one_of_population
 @numba.jit
-def make_new_population(population_num,population,which_one):
+def make_new_population(population_num,population,which_one,new_population_num):
 	new_population=[]
 
 	for i in range(int((population_num)*keep_rate)//2):
@@ -82,15 +82,15 @@ def make_new_population(population_num,population,which_one):
 		new_population.append(child1)
 		new_population.append(child2)
 
-	if len(new_population)<population_num:
+	if len(new_population)<new_population_num:
 		for i in range((population_num - int((population_num) * keep_rate)) // 2):
 			parent1 = population[randint(0, population_num - 1)]
 			parent2 = population[randint(0, population_num - 1)]
 			child1, child2 = cross_fn(parent1, parent2)
 			new_population.append(child1)
 			new_population.append(child2)
-	if len(new_population)>population_num:
-		return new_population[:population_num]
+	if len(new_population)>new_population_num:
+		return new_population[:new_population_num]
 	return new_population
 
 gen_round=0
@@ -103,10 +103,14 @@ which_one=[i for i in range(population_num) if fitness_list[i]==fitness_best][0]
 same_times=0
 print('gen:',gen_round,'   fitness_best=',fitness_best)
 
+
+new_population_num=population_num
+
 while fitness_best!=1.0:
 
 	t1=time()
-	population=make_new_population(population_num,population,which_one)
+	population=make_new_population(population_num,population,which_one,new_population_num)
+	population_num=new_population_num
 	#print()
 	gen_round+=1
 
@@ -119,10 +123,21 @@ while fitness_best!=1.0:
 	fit_history=fitness_best
 	if same_times>10:
 		mutate_rate+=5
-
+		keep_rate-=0.01
+		cross_rate-=0.01
+#		population_num+=10
 		same_times=0
 		print('mr up to:',mutate_rate)
+	if keep_rate<=0.0:
+		keep_rate=0.5
+	if cross_rate<=0.0:
+		cross_rate=0.5
+	if mutate_rate>=1000:
+		mutate_rate=500
+
 	which_one = [i for i in range(population_num) if fitness_list[i] == fitness_best][0]
+	if same_times>10:
+		new_population_num=population_num+10
 	t2=time()
 	print('gen:', gen_round, '   fitness_best=', fitness_best,'   spend_time=',t2-t1)
 
