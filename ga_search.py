@@ -126,7 +126,7 @@ while fitness_best!=1.0:
 		keep_rate-=0.01
 		cross_rate-=0.01
 #		population_num+=10
-		same_times=0
+		
 		print('mr up to:',mutate_rate)
 	if keep_rate<=0.2:
 		keep_rate=0.5
@@ -138,6 +138,7 @@ while fitness_best!=1.0:
 	which_one = [i for i in range(population_num) if fitness_list[i] == fitness_best][0]
 	if same_times>10:
 		new_population_num=population_num+10
+		same_times=0
 	t2=time()
 	print('gen:', gen_round, '   fitness_best=', fitness_best,'   spend_time=',t2-t1)
 
